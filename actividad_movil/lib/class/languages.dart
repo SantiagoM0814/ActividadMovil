@@ -1,60 +1,54 @@
-class MusicList {
-  String title;
+class LanguageList {
   String name;
-  String descriptions;
-  String single;
-  String author;
-  String durations;
-  String coverImg;
+  String creator;
+  String description;
+  String year;
+  String paradigm;
+  String imagenUrl;
 
-  MusicList(this.title, this.name, this.descriptions, this.single, this.author, this.durations, this. coverImg);
+  LanguageList(this.name, this.creator, this.description, this.year, this.paradigm, this.imagenUrl);
 
-  static List<MusicList> musicList() {
+  static List<LanguageList> languageList() {
     return [
-      MusicList(
-        "Blinding Lights",
-        "The Weeknd",
-        "Un éxito mundial de pop/synthwave con vibes de los 80s",
-        "Sí",
-        "The Weeknd",
-        "3:20",
-        "https://link_to_cover/blinding_lights.jpg",
+      LanguageList(
+        "JavaScript",
+        "Brendan Eich",
+        "Lenguaje muy usado para desarrollo web, tanto frontend como backend (Node.js).",
+        "1995",
+        "Multiparadigma (Imperativo, Funcional, Orientado a Objetos)",
+        "../assets/img/js.png",
       ),
-      MusicList(
-        "Shape of You",
-        "Ed Sheeran",
-        "Canción pop con influencias dancehall, uno de los temas más escuchados",
-        "Sí",
-        "Ed Sheeran",
-        "3:54",
-        "https://link_to_cover/shape_of_you.jpg",
+      LanguageList(
+        "Python",
+        "Guido van Rossum",
+        "Lenguaje interpretado, muy usado en IA, ciencia de datos y desarrollo web.",
+        "1991",
+        "Multiparadigma (Imperativo, Orientado a Objetos, Funcional)",
+        "../assets/img/python.png",
       ),
-      MusicList(
-        "Bohemian Rhapsody",
-        "Queen",
-        "Clásico del rock con múltiples estilos en una sola canción",
-        "No",
-        "Freddie Mercury",
-        "5:55",
-        "https://link_to_cover/bohemian_rhapsody.jpg",
+      LanguageList(
+        "Java",
+        "James Gosling (Sun Microsystems)",
+        "Lenguaje orientado a objetos, muy usado en aplicaciones empresariales y Android.",
+        "1995",
+        "Orientado a Objetos",
+        "../assets/img/java.png",
       ),
-      MusicList(
-        "Smells Like Teen Spirit",
-        "Nirvana",
-        "Icono del grunge de los 90, himno de una generación",
-        "Sí",
-        "Kurt Cobain",
-        "5:01",
-        "https://link_to_cover/smells_like_teen_spirit.jpg",
+      LanguageList(
+        "C#",
+        "Microsoft",
+        "Lenguaje de programación moderno para desarrollo en .NET y videojuegos con Unity.",
+        "2000",
+        "Orientado a Objetos, Funcional",
+        "../assets/img/csharp.png",
       ),
-      MusicList(
-        "Despacito",
-        "Luis Fonsi ft. Daddy Yankee",
-        "Reguetón/pop latino que rompió récords en todo el mundo",
-        "Sí",
-        "Luis Fonsi",
-        "3:47",
-        "https://link_to_cover/despacito.jpg",
+      LanguageList(
+        "Dart",
+        "Google",
+        "Lenguaje optimizado para apps móviles, usado en Flutter.",
+        "2011",
+        "Orientado a Objetos",
+        "../assets/img/dart.png",
       ),
     ];
   }

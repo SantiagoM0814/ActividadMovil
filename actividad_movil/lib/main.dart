@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:actividad_movil/class/languages.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final Uri _url = Uri.parse('https://www.burgerking.com.co/');
+final Uri _url = Uri.parse('https://www.youtube.com/watch?v=1glVfFxj8a4&t=10793s');
 
 void main() {
   runApp(const AppBarApp());
@@ -68,7 +68,7 @@ void initState() {
             children: <Widget>[
               const SizedBox(width: 8),
               TextButton(
-                onPressed: _launchURL, // ✅ ahora funciona
+                onPressed: _launchURL,
                 child: const Text('Aprender más'),
               ),
               const SizedBox(width: 8),
@@ -142,13 +142,13 @@ void initState() {
       body: Center(
         child: _selectedIndex == 0
       ? ListView.builder(
-          itemCount: MusicList.musicList().length,
+          itemCount: LanguageList.languageList().length,
           itemBuilder: (context, index) {
-            var musicList = MusicList.musicList()[index];
+            var languageList = LanguageList.languageList()[index];
             return InkWell(
               onTap: () {
                 var snackBar = SnackBar(
-                  content: Text("Title ${musicList.title}"),
+                  content: Text("Title ${languageList.name}"),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
@@ -157,7 +157,7 @@ void initState() {
                   children: <Widget>[
                     padding(
                       Text(
-                        musicList.title,
+                        languageList.name,
                         style: const TextStyle(fontSize: 20.0),
                       ),
                     ),
@@ -166,7 +166,7 @@ void initState() {
                       width: 500.0,
                       color: Colors.black,
                       child: Image.network(
-                        musicList.coverImg,
+                        languageList.imagenUrl,
                         height: 150.0,
                         width: 170.0,
                       ),
@@ -175,13 +175,13 @@ void initState() {
                       children: <Widget>[
                         padding(
                           Text(
-                            musicList.single,
+                            languageList.year,
                             style: const TextStyle(fontSize: 15.0),
                           ),
                         ),
                         padding(
                           Text(
-                            musicList.name,
+                            languageList.creator,
                             style: const TextStyle(fontSize: 15.0),
                           ),
                         ),
@@ -189,7 +189,7 @@ void initState() {
                     ),
                     padding(
                       Text(
-                        musicList.descriptions,
+                        languageList.description,
                         style: const TextStyle(fontSize: 12.0),
                       ),
                     ),
@@ -197,13 +197,7 @@ void initState() {
                       children: <Widget>[
                         padding(
                           Text(
-                            musicList.author,
-                            style: const TextStyle(fontSize: 14.0),
-                          ),
-                        ),
-                        padding(
-                          Text(
-                            musicList.durations,
+                            languageList.paradigm,
                             style: const TextStyle(fontSize: 14.0),
                           ),
                         ),
@@ -219,7 +213,7 @@ void initState() {
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero, // quita el padding del ListView
+          padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
