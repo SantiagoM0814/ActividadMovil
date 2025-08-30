@@ -1,122 +1,262 @@
 import 'package:flutter/material.dart';
+import 'package:actividad_movil/class/languages.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _url = Uri.parse('https://www.burgerking.com.co/');
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AppBarApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class AppBarApp extends StatelessWidget {
+  const AppBarApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return const MaterialApp(
+      home: AppBarExample(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class AppBarExample extends StatefulWidget {
+  const AppBarExample({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AppBarExample> createState() => _AppBarExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _AppBarExampleState extends State<AppBarExample> {
 
-  void _incrementCounter() {
+  int _selectedIndex = 0;
+
+  Future<void> _launchURL() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
+  static const TextStyle optionStyle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+
+
+  late List<Widget> _widgetOptions;
+
+@override
+void initState() {
+  super.initState();
+  _widgetOptions = <Widget>[
+    const Text('Index 0: Home', style: optionStyle),
+    Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const SizedBox(width: 8),
+          const Image(image: AssetImage('img/js.png')),
+          const ListTile(
+            leading: Icon(Icons.code, color: Colors.yellow),
+            title: Text('JavaScript'),
+            subtitle: Text(
+              "Lenguaje de programación muy usado en el desarrollo web. "
+              "Funciona tanto en frontend como en backend con Node.js.",
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              const SizedBox(width: 8),
+              TextButton(
+                onPressed: _launchURL, // ✅ ahora funciona
+                child: const Text('Aprender más'),
+              ),
+              const SizedBox(width: 8),
+            ],
+          )
+        ],
+      ),
+    ),
+    const Text('Index 2: School', style: optionStyle),
+  ];
+}
+
+
+  void _onItemTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Colors.purple,
+        centerTitle: true,
+        foregroundColor: Colors.white,
+        title: const Text('AppBar Demo'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add_alert),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('This is a snackbar')),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline),
+            tooltip: 'Show add alert',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('This is a snackbar add alert')),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.navigate_next),
+            tooltip: 'Got to the next page',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) {
+                    return Scaffold(
+                      appBar: AppBar(title: const Text('Next page')),
+                      body: const Center(
+                        child: Text(
+                          'This is the next page',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+        child: _selectedIndex == 0
+      ? ListView.builder(
+          itemCount: MusicList.musicList().length,
+          itemBuilder: (context, index) {
+            var musicList = MusicList.musicList()[index];
+            return InkWell(
+              onTap: () {
+                var snackBar = SnackBar(
+                  content: Text("Title ${musicList.title}"),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              child: Card(
+                child: Column(
+                  children: <Widget>[
+                    padding(
+                      Text(
+                        musicList.title,
+                        style: const TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                    Container(
+                      height: 150.0,
+                      width: 500.0,
+                      color: Colors.black,
+                      child: Image.network(
+                        musicList.coverImg,
+                        height: 150.0,
+                        width: 170.0,
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        padding(
+                          Text(
+                            musicList.single,
+                            style: const TextStyle(fontSize: 15.0),
+                          ),
+                        ),
+                        padding(
+                          Text(
+                            musicList.name,
+                            style: const TextStyle(fontSize: 15.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                    padding(
+                      Text(
+                        musicList.descriptions,
+                        style: const TextStyle(fontSize: 12.0),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        padding(
+                          Text(
+                            musicList.author,
+                            style: const TextStyle(fontSize: 14.0),
+                          ),
+                        ),
+                        padding(
+                          Text(
+                            musicList.durations,
+                            style: const TextStyle(fontSize: 14.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        )
+      : _widgetOptions[_selectedIndex],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero, // quita el padding del ListView
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.purple,
+                image: DecorationImage(
+                  image: AssetImage('assets/img/logo.png'),
+                  fit: BoxFit.cover,
+                  opacity: 0.2,
+                ),
+              ),
+              child: Text('Menu'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.code),
+              title: const Text('Lenguajes'),
+              selected: _selectedIndex == 0,
+              onTap: () {
+                _onItemTapped(0);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.business),
+              title: const Text('Card'),
+              selected: _selectedIndex == 1,
+              onTap: () {
+                _onItemTapped(1);
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+Widget padding(Widget widget) {
+  return Padding(padding: const EdgeInsets.all(0.7), child: widget);
 }
